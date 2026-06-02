@@ -1,9 +1,7 @@
-﻿using CW8.Models;
-
-namespace CW8.DTOs;
+﻿namespace CW8.DTOs;
 
 public record BedDto(
-    int id,
-    BedType bedType,
-    RoomDto room
+    int Id,
+    BedTypeDto BedType,
+    RoomDto Room
 );

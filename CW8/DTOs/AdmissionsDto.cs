@@ -1,8 +1,8 @@
 ﻿namespace CW8.DTOs;
 
 public record AdmissionDto(
-    int id,
-    DateTime admissionDate,
-    DateTime? dischargeDate,
-    WardDto ward
+    int Id,
+    DateTime AdmissionDate,
+    DateTime? DischargeDate,
+    WardDto Ward
 );

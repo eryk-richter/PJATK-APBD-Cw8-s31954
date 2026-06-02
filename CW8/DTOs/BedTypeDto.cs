@@ -3,10 +3,10 @@
 namespace CW8.DTOs;
 
 public record BedTypeDto(
-    int id,
+    int Id,
     
     [MaxLength(300)]
-    string name,
+    string Name,
     
-    string description
+    string Description
 );
