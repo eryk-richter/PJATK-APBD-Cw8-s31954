@@ -1,7 +1,12 @@
-﻿namespace CW8.DTOs;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CW8.DTOs;
 
 public record WardDto(
-    int id,
-    string name,
-    string description
+    int Id,
+    
+    [MaxLength(300)]
+    string Name,
+    
+    string Description
 );

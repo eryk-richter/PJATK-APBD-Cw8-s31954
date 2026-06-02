@@ -3,6 +3,6 @@
 public record BedAssignmentDto (
     int id,
     DateTime from,
-    DateTime to,
+    DateTime? to,
     BedDto bed
 );

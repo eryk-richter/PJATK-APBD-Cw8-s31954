@@ -3,6 +3,6 @@
 public record AdmissionDto(
     int id,
     DateTime admissionDate,
-    DateTime dischargeDate,
+    DateTime? dischargeDate,
     WardDto ward
 );

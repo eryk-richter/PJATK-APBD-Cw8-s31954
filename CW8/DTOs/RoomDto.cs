@@ -1,7 +1,11 @@
-﻿namespace CW8.DTOs;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CW8.DTOs;
 
 public record RoomDto(
-    string id,
-    bool hasTv,
-    WardDto ward
+    [MaxLength(4)]
+    string Id,
+    
+    bool HasTv,
+    WardDto Ward
 );
