@@ -1,0 +1,6 @@
+@CW8_HostAddress = http://localhost:5074
+
+GET {{CW8_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
