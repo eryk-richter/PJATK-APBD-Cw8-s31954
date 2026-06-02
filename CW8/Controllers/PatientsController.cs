@@ -8,20 +8,9 @@ namespace CW8.Controllers;
 [Route("api/[controller]")]
 public class PatientsController(IPatientService patientService) : ControllerBase {
 
-
     [HttpGet]
-    public async Task<IActionResult> GetAll(CancellationToken cancellationToken) {
-        return Ok(await patientService.GetAllAsync(cancellationToken));
-    }
-
-    [HttpGet("search")]
-    public async Task<IActionResult> GetByName([FromQuery] string name, CancellationToken cancellationToken) {
-        try {
-            return Ok(await patientService.GetPatientByNameAsync(name, cancellationToken));
-        }
-        catch (PatientNotFoundException e) {
-            return NotFound(e.Message);
-        }
+    public async Task<IActionResult> GetPatients([FromQuery] string? search, CancellationToken cancellationToken) {
+            return Ok(await patientService.GetPatientsAsync(search, cancellationToken));
     }
 
 }

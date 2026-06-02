@@ -1,12 +1,26 @@
 ﻿using CW8.DTOs;
+using CW8.Exceptions;
 using CW8.Infrastructure;
+using CW8.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CW8.Services;
 
 public class PatientService (Apbd8Context ctx): IPatientService {
-    public async Task<IEnumerable<PatientDetailsDto>> GetAllAsync(CancellationToken cancellationToken) {
-        return await ctx.Patients.Select(p => new PatientDetailsDto(
+
+    public async Task<IEnumerable<PatientDetailsDto>> GetPatientsAsync(string? search, CancellationToken cancellationToken) {
+        
+        IQueryable<Patient> query = ctx.Patients;
+        
+        if (!string.IsNullOrWhiteSpace(search)) {
+            query = query.Where(p =>
+                EF.Functions.Like(p.FirstName, $"%{search}%") ||
+                EF.Functions.Like(p.LastName, $"%{search}%")
+            );
+        }
+        
+        return await query
+            .Select(p => new PatientDetailsDto(
             p.Pesel,
             p.FirstName,
             p.LastName,
@@ -45,10 +59,7 @@ public class PatientService (Apbd8Context ctx): IPatientService {
 
                 )
             ))
-        )).ToListAsync();
-    }
-
-    public Task<PatientDetailsDto> GetPatientByNameAsync(string name, CancellationToken cancellationToken) {
-        throw new NotImplementedException();
+        )).ToListAsync(cancellationToken);
+        
     }
 }
