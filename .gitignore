@@ -57,3 +57,4 @@ TestResult.xml
 nunit-*.xml
 
 .idea/
+CW8.sln.DotSettings.user
