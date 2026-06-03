@@ -64,4 +64,59 @@ public class PatientService (Apbd8Context ctx): IPatientService {
         )).ToListAsync(cancellationToken);
         
     }
+
+    public async Task AssignBedAsync(string pesel, CreateBedAssignDto req, CancellationToken cancellationToken) {
+        if(pesel.Length != 11)
+            throw new InvalidPeselException("Pesel must be 11 characters long");
+        
+        if (!await ctx.Patients.AnyAsync(p => p.Pesel == pesel, cancellationToken)) 
+            throw new PatientNotFoundException("Patient with requested pesel not found!");
+
+        if (!await ctx.BedTypes.AnyAsync(b => b.Name == req.BedType, cancellationToken))
+            throw new BedTypeNotFoundException("Requested BedType does not exist!");
+        
+        
+        var bed = await ctx.Beds
+            .Where(b => 
+                b.BedType.Name == req.BedType && 
+                b.Room.Ward.Name == req.Ward && 
+                !b.BedAssignments.Any(ba =>
+                    (req.To == null || ba.From < req.To) &&
+                    (ba.To == null || req.From < ba.To))
+                )
+            .FirstOrDefaultAsync(cancellationToken);
+
+
+        if (bed == null) {
+            throw new BedNotAvailableException("requested bed is not available!");
+        }
+        
+        var bedAssignment = new BedAssignment {
+            PatientPesel =  pesel,
+            BedId =  bed.Id,
+            From = req.From,
+            To = req.To
+        };
+        ctx.Add(bedAssignment);
+        await ctx.SaveChangesAsync(cancellationToken);
+        
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

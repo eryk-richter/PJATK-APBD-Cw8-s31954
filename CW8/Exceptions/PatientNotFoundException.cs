@@ -1,8 +1,3 @@
 ﻿namespace CW8.Exceptions;
 
-public class PatientNotFoundException: Exception
-{
-    public PatientNotFoundException() { }
-    public PatientNotFoundException(string message) : base(message) { }
-    
-}
+public class PatientNotFoundException(string message) : Exception(message);
